@@ -44,3 +44,13 @@ export const updateAStudent = ( id, payload ) => {
 
     return axios.patch(`https://masai-sms.herokuapp.com/students/${id}`, payload);
 };
+
+export const studentLogin = ( payload ) => {
+
+    return axios.post('https://masai-sms.herokuapp.com/studentlogin', payload);
+};
+
+export const adminLogin = ( payload ) => {
+
+    return axios.post('https://masai-sms.herokuapp.com/adminlogin', payload);
+}

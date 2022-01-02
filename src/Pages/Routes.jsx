@@ -1,5 +1,8 @@
 import { Route, Switch } from "react-router-dom";
 import PrivateRoutes from "../Components/PrivateRoutes";
+import AdminPanel from "./AdminPanel";
+import Home from "./Home";
+import Login from "./Login";
 
 export default function Routes() {
 
@@ -8,15 +11,15 @@ export default function Routes() {
         <Switch>
 
             <Route path="/" exact >
-                <h1>Masai Student Management System</h1>
+                <Home />
             </Route>
 
             <PrivateRoutes path="/panel" >
-                <h1>Admin Panel</h1>
+               <AdminPanel />
             </PrivateRoutes>
 
             <Route path="/login" >
-                Login
+                <Login />
             </Route>
 
             <Route path="/testing" >

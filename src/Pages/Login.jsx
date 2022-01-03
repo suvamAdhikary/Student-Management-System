@@ -11,7 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [heading, setHeading] = useState("student");
 
-    const { handleToken } = useContext(SMSContext);
+    const { handleToken, setSmsUserId, setToken } = useContext(SMSContext);
 
     const history = useHistory();
 
@@ -26,13 +26,22 @@ const Login = () => {
 
         try {
 
-            let { data : {token, user} } = await req(payload);
+            let { data } = await req(payload);
 
-            await handleToken(token);
+            if(heading === 'admin'){
+                // console.log("in token", data.token);
+                await handleToken(data.token);
+            }
+
+            localStorage.setItem('smsUserId', JSON.stringify(data.user._id));
+
+            let smsId = JSON.parse(localStorage.getItem("smsUserId"));
+
+            setSmsUserId(smsId);
 
             history.push("/");
 
-            console.log(token, user);
+            // console.log(smsId, "login data");
 
             setEmail("");
             setPassword("");
@@ -43,9 +52,40 @@ const Login = () => {
         }
     }
 
+    // let smsId = JSON.parse(localStorage.getItem("smsUserId"));
+
+
+    // const handleLogout = () => {
+
+    //     localStorage.setItem("smsUserId", JSON.stringify(null));
+
+    //     let smsId = JSON.parse(localStorage.getItem("smsUserId"));
+
+    //     setSmsUserId(smsId);
+
+    // }
+
     useEffect(() => {
+
         document.title = "Login";
-    }, [])
+
+        // handleLogout();
+
+        let timerId = setTimeout(  (() => {
+
+        localStorage.setItem("smsUserId", JSON.stringify(null));
+
+        let smsId = JSON.parse(localStorage.getItem("smsUserId"));
+
+        setSmsUserId(smsId);
+
+        setToken("");
+
+        })(), 250);
+
+        clearTimeout(timerId);
+
+    }, [setSmsUserId, setToken])
 
     return(<>
         <h1>LOGIN HERE . . .</h1>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllContests, removeAContest } from "../Utils/Axios";
 
 
-const ContestData = () => {
+const ContestData = ({page}) => {
     const [contestData, setContestData] = useState([]);
     let count = 0;
     const getData = async () => {
@@ -48,7 +48,7 @@ const ContestData = () => {
                 <p>{contest.tags.join(" ")}</p>
                 <p>{contest.time}</p>
                 <p>{contest.deadline}</p>
-                <button onClick={() => handleRemove(contest._id) } >REMOVE</button>
+                {page !== 'home' && <button onClick={() => handleRemove(contest._id) } >REMOVE</button>}
             </div>
         ))}
     </>)

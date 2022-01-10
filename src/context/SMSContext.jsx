@@ -6,6 +6,7 @@ export const SMSContextProvider = ({children}) => {
     let smsId = JSON.parse(localStorage.getItem("smsUserId"));
 
     const [token, setToken] = useState("");
+    const [sToken, setSToken] = useState("");
     const [smsUserId, setSmsUserId] = useState(smsId);
 
 
@@ -14,7 +15,11 @@ export const SMSContextProvider = ({children}) => {
         setToken(newToken);
     };
 
-    const value = { token, handleToken, smsUserId, setSmsUserId, setToken };
+    const handleSToken = (sT) => {
+        setSToken(sT);
+    }
+
+    const value = { token, handleToken, smsUserId, setSmsUserId, setToken, handleSToken, sToken, setSToken };
 
     return <SMSContext.Provider value={value}>
         { children }

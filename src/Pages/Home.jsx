@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import ContestData from "../Components/ContestData";
+
 
 
 
@@ -12,7 +14,10 @@ const Home = () => {
     }, [])
 
     return(<>
-       Masai Student Management System 
+       <br />
+       Masai Student Management System
+       <br />
+       <ContestData page="home" />
     </>)
 }
 

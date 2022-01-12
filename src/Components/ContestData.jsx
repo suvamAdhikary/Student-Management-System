@@ -1,23 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAllContests, removeAContest } from "../Utils/Axios";
 
 
 const ContestData = ({page}) => {
     const [contestData, setContestData] = useState([]);
-    let count = 0;
-    const getData = async () => {
-        
-        try {
+    const [pageNo, setPageNo] = useState(1);
+    const [sortDeadLine, setSortDeadLine] = useState(false);
+    const [filter, setFilter] = useState(null);
 
-            const { data : {data} } = await getAllContests();
-
-            setContestData(data);
-
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
+    const contestPages = useRef(0);
 
     const handleRemove = async (id) => {
 
@@ -25,7 +16,6 @@ const ContestData = ({page}) => {
 
             await removeAContest(id);
 
-            count++;
         }
         catch (err) {
             console.log(err);
@@ -34,14 +24,38 @@ const ContestData = ({page}) => {
 
     useEffect(() => {
 
-        let timerId = setTimeout(getData(), 500);
+        setTimeout( async () => {
+        
+            try {
 
-        clearTimeout(timerId);
+                const { data : {data, pages} } = await getAllContests( pageNo );
+                setContestData(data);
+                contestPages.current = pages;
+                
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }, 500);
 
-    }, [count])
+    }, [pageNo])
 
     return (<>
-        {contestData.map((contest) => (
+        <div>
+            <div>
+                <h3>SORT BY</h3>
+                <button onClick={() => setSortDeadLine(!sortDeadLine)} >DEADLINE</button>
+            </div>
+            <div>
+                <h3>FILTER BY</h3>
+                <button onClick={() => {setFilter(filter === "dsa" ? null : "dsa")}} >DSA</button>
+                <button onClick={() => {setFilter(filter === "coding" ? null : "coding")}} >CODING</button>
+            </div>
+        </div>
+        {contestData
+            .filter((el) => filter !== null ? el.type === filter : 'undefined')
+            .sort((a, b) => sortDeadLine && a.deadline - b.deadline)
+            .map((contest) => (
             <div key={contest._id}>
                 <h3>{contest.title}</h3>
                 <p>{contest.type}</p>
@@ -51,6 +65,10 @@ const ContestData = ({page}) => {
                 {page !== 'home' && <button onClick={() => handleRemove(contest._id) } >REMOVE</button>}
             </div>
         ))}
+        <div>
+            <button disabled={pageNo === 1} onClick={() => setPageNo(pageNo - 1)} >PREV</button>
+            <button disabled={pageNo === contestPages.current} onClick={() => setPageNo(pageNo + 1)} >NEXT</button>
+        </div>
     </>)
 }
 

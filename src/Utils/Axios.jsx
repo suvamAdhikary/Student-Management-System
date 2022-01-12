@@ -2,9 +2,9 @@ import axios from "axios";
 
 
 
-export const getAllContests = () => {
+export const getAllContests = ( page ) => {
 
-    return axios.get("https://masai-sms.herokuapp.com/contests");
+    return axios.get(`https://masai-sms.herokuapp.com/contests?page=${page || 1}`);
 };
 
 export const addNewContest = ( payload ) => {
@@ -25,9 +25,9 @@ export const updateAContest = ( id, payload ) => {
 
 
 
-export const getAllStudents = () => {
+export const getAllStudents = ( page ) => {
 
-    return axios.get("https://masai-sms.herokuapp.com/students");
+    return axios.get(`https://masai-sms.herokuapp.com/students?page=${page || 1}`);
 };
 
 export const addNewStudent = ( payload ) => {

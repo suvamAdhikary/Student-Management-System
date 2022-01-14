@@ -1,12 +1,17 @@
 import Navbar from "./Components/Navbar";
+import { GlobalStyles } from "./Components/Styles/Global";
 import Routes from "./Pages/Routes";
+
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Routes />
-    </div>
+  <>
+    <GlobalStyles />
+      <div className="App">
+        <Navbar />
+        <Routes />
+      </div>
+  </>
   );
 }
 

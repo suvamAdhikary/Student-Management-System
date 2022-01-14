@@ -3,10 +3,16 @@ import PrivateRoutes from "../Components/PrivateRoutes";
 import AdminPanel from "./AdminPanel";
 import Home from "./Home";
 import Login from "./Login";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+
+    margin-top: 7vh;
+`;
 
 export default function Routes() {
 
-    return (<>
+    return (<Wrapper>
 
         <Switch>
 
@@ -31,5 +37,5 @@ export default function Routes() {
             </Route>
         </Switch>
 
-    </>)
+    </Wrapper>)
 }
